@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <style>
+
+    </style>
+    <title>Tix</title>
+</head>
+
+<nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light" >
+    <a class="navbar-brand" >
+        &emsp;&emsp;<img src="https://www.freeiconspng.com/uploads/download-ticket-ticket-free-entertainment-icon-orange-ticket-design-0.png" width="75"/>    
+    </a>
+    &ensp;&ensp;&ensp;
+    <strong>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/profile/">Profile</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/logout/">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </strong>
+</nav>
+
+<div>
+    {% if messages %}
+        {% for message in messages %}
+            <div class = "alert {{message.tags}} m-2" id = "msg" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<body>
+    <br><br><br>
+    <div class="container-fluid d-flex justify-content-center">
+        <div class="row">
+            <div class="col-">
+                <img src="https://www.freeiconspng.com/uploads/account-profile-user-icon--icon-search-engine-10.png" width="120">
+            </div>
+            &ensp;&ensp;&ensp;
+            <div class="col-">
+                Name : {{user.name}} <br>
+                Age : {{user.age}} <br>
+                Balance  : {{user.balance}}
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="container-fluid d-flex justify-content-center">
+        <div class = "row">
+            <!-- edit name -->
+            <div class = "col-">
+                <button type="button" class="btn-lg btn-primary" data-toggle="modal" data-target="#editName">
+                    Edit Name
+                </button>
+                <div class="modal fade" id="editName" tabindex="-1" role="dialog" aria-labelledby="editNameTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="editNameTitle">Edit Name</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <div class="form-group w-50 ">
+                                    <label for="username">Name</label>
+                                    <input type="text" class="form-control" id="name" name = "name" placeholder="Enter New Name" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- edit name -->
+        &ensp;&ensp;&ensp;&ensp;
+        
+            <!-- change password -->
+            <div class="col-">
+                <button type="button" class="btn-lg btn-primary" data-toggle="modal" data-target="#editpassword">
+                    Change Password
+                </button>
+                <div class="modal fade" id="editpassword" tabindex="-1" role="dialog" aria-labelledby="editpasswordTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="editpasswordTitle">Change Password</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <div class="form-group w-50 ">
+                                    <label for="oldpassword">Old Password</label>
+                                    <input type="password" class="form-control" id="oldpassword" name = "oldpassword" placeholder="Enter Old Password" required>
+                                </div>
+
+                                <div class="form-group w-50 ">
+                                    <label for="password">New Password</label>
+                                    <input type="password" class="form-control" id="password" name = "password" placeholder="Enter New Password" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+
+            &ensp;&ensp;&ensp;&ensp;
+
+            <!-- Top UP -->
+            <div class="col-">
+                <button type="button" class="btn-lg btn-primary" data-toggle="modal" data-target="#topup">
+                    Top Up
+                </button>
+                <div class="modal fade" id="topup" tabindex="-1" role="dialog" aria-labelledby="topupTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="topupTitle">Top Up Balance</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <div class="form-group w-50 ">
+                                    <label for="topup">Top Up</label>
+                                    <input type="number" min="1" class="form-control" id="topup" name = "topup" placeholder="Enter Desired Amount" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Top Up</button>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            <!-- Top Up -->
+
+            &ensp;&ensp;&ensp;&ensp;
+
+            <!-- withdraw -->
+            <div class="col-">
+                <button type="button" class="btn-lg btn-primary" data-toggle="modal" data-target="#withdraw">
+                    Withdraw
+                </button>
+                <div class="modal fade" id="withdraw" tabindex="-1" role="dialog" aria-labelledby="withdrawTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="withdrawTitle">Withdraw Balance</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <div class="form-group w-50 ">
+                                    <label for="withdraw">Withdraw</label>
+                                    <input type="number" min="1" max="{{user.balance}}" class="form-control" id="withdraw" name = "withdraw" placeholder="Enter Desired Amount" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Withdraw</button>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            <!-- withdraw -->
+            &ensp;&ensp;&ensp;&ensp;
+
+            <div class="col-">
+                <button type="button" class="btn-lg btn-primary" data-toggle="modal" data-target="#ticket">
+                    My tickets
+                </button>
+                <div class="modal fade" id="ticket" tabindex="-1" role="dialog" aria-labelledby="ticketTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="ticketTitle">Tickets</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Ticket ID</th>
+                                        <th scope="col">Seat Number</th>
+                                        <th scope="col">Purchase Date</th>
+                                        <th scope="col">Movie</th>
+                                        <th scope="col">#</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for ticket in tickets %}
+                                    <tr>
+                                        <th scope="row">{{ ticket.id}}</th>
+                                        <td>{{ ticket.seat_id }}</td>
+                                        <td>{{ ticket.purchase_date }}</td>
+                                        <td> {{ ticket.movie.title }}</td>
+                                            <td> 
+                                                <form method="POST">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn-sm btn-danger">Refund</button>
+                                                    <input type="hidden" name="refund{{ ticket.id }}" id="seat{{ ticket.id }}" value="{{ticket.id}}">
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                  </table>
+                            </div>
+                            <div class="modal-footer">
+                            
+                            </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+</body>
+
+<script>
+    setTimeout(function(){
+        if ($('#msg').length > 0){
+            $('#msg').remove();
+        }
+    },2000)
+</script>
+
+</html>
