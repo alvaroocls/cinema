@@ -5,10 +5,9 @@ from .models import UserData,MovieData,Tickets
 from django.contrib import messages
 from datetime import date
 # Create your views here.
-login_username = ''
 
 def homepage(request) : 
-    
+    login_username = request.session.get('login_username')
     if login_username : 
         user = UserData.objects.get(username = login_username)
     else : 
@@ -18,13 +17,12 @@ def homepage(request) :
     return render(request,'home.html',{'user' : user,'movie' : movie})
 
 def login(request) : 
-    global login_username
     if request.method == 'POST' : 
         username = request.POST.get('username')
         password = request.POST.get('password')
 
         if UserData.objects.filter(username = username,password=password).exists() : 
-            login_username = username
+            request.session['login_username'] = username
             return redirect('/')
         else : 
             messages.error(request,'Password / Username salah')
@@ -47,9 +45,8 @@ def register(request) :
     return render(request,'register.html')
 
 def logout(request) : 
-    global login_username
-    if login_username : 
-        login_username = ''
+    if 'login_username' in request.session : 
+        del request.session['login_username']
         messages.success(request,'Logout Berhasil')
         return redirect('/')
     else : 
@@ -57,6 +54,7 @@ def logout(request) :
         return redirect('/')
 
 def profile(request) : 
+    login_username = request.session.get('login_username')
     user = UserData.objects.get(username = login_username)
     tickets = Tickets.objects.filter(user_id = login_username).select_related('movie')
 
@@ -113,6 +111,7 @@ def profile(request) :
                                           'tickets' : tickets})
 
 def booking(request,movie_id) : 
+    login_username = request.session.get('login_username')
     movie = MovieData.objects.get(id = movie_id)
     user = UserData.objects.get(username = login_username)
     tickets = Tickets.objects.filter(movie = movie_id).values()
