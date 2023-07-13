@@ -146,8 +146,6 @@ def booking(request,movie_id) :
                 messages.error(request,'Insufficient balance')
             elif len(selected_seats) > 6 : 
                 messages.error(request,'Maksimal booking 6 tiket!')
-            elif Tickets.objects.filter(seat_id = selected_seats[0]).exists() : 
-                messages.error(request,'Kursi sudah terjual!')
             else :
                 for x in selected_seats:
                     Tickets.objects.create(movie = movie,user = user,seat_id = x, purchase_date = date.today() )
